@@ -1,4 +1,4 @@
-import {Suspense, useState} from 'react';
+import {Suspense} from 'react';
 import {defer, redirect, type LoaderFunctionArgs} from '@shopify/remix-oxygen';
 import {
   Await,
@@ -25,13 +25,8 @@ import type {
   SelectedOption,
 } from '@shopify/hydrogen/storefront-api-types';
 import {getVariantUrl} from '~/lib/variants';
-
-function getProductId(compositeId: string) {
-  const parts = compositeId.split('/');
-  const id = parts[parts.length - 1];
-
-  return id;
-}
+import {getProductId} from '~/components/favorites/util';
+import FavoriteButton from '~/components/favorites/FavoriteButton';
 
 export const meta: MetaFunction<typeof loader> = ({data}) => {
   return [{title: `Hydrogen | ${data?.product.title ?? ''}`}];
@@ -198,83 +193,6 @@ function ProductMain({
       <br />
     </div>
   );
-}
-
-interface IFavoriteButton {
-  product: ProductFragment;
-  isFavorite: boolean;
-}
-
-function FavoriteButton(props: IFavoriteButton) {
-  const [isFavorite, setIsFavorite] = useState(props.isFavorite);
-  const productId = getProductId(props.product.id);
-  const handleFavorite = () => {
-    const currentFavorite = !isFavorite;
-
-    if (currentFavorite) {
-      addFavorite(props.product);
-    } else {
-      removeFavorite(productId);
-    }
-
-    setIsFavorite(currentFavorite);
-  };
-
-  const addFavorite = async (product: ProductFragment) => {
-    const id = getProductId(product.id);
-
-    const bodyRequest = {
-      productId: id,
-      name: product.title,
-      description: product.description,
-      price: parseInt(product.selectedVariant?.price.amount, 10),
-      imageUrl: product.selectedVariant?.image?.url,
-      jsonData: JSON.stringify(product),
-    };
-
-    try {
-      const response = await fetch('http://localhost:5000/api/favorite', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(bodyRequest),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to add favorite product');
-      }
-
-      // Handle success, e.g., show a success message or redirect
-    } catch (error) {
-      console.error('Error:', error);
-      // Handle error, e.g., show an error message
-    }
-  };
-
-  const removeFavorite = async (productId: string) => {
-    try {
-      const response = await fetch(
-        `http://localhost:5000/api/favorite/${productId}`,
-        {
-          method: 'DELETE',
-        },
-      );
-
-      if (!response.ok) {
-        throw new Error('Failed to remove product');
-      }
-
-      // Handle success, e.g., show a success message or update UI
-    } catch (error) {
-      console.error('Error:', error);
-      // Handle error, e.g., show an error message
-    }
-  };
-
-  const text = isFavorite ? 'Remove from favorite' : 'Add to Favorite';
-
-  return <button onClick={handleFavorite}>{text}</button>;
 }
 
 function ProductPrice({
