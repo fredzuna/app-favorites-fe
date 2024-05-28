@@ -1,3 +1,9 @@
+# run the project locally
+to run the project execute the next comands
+- npm install 
+- npm run dev
+- open the url http://localhost:3000 in the browser
+
 # Hydrogen template: Skeleton
 
 Hydrogen is Shopify’s stack for headless commerce. Hydrogen is designed to dovetail with [Remix](https://remix.run/), Shopify’s full stack web framework. This template contains a **minimal setup** of components, queries and tooling to get started with Hydrogen.
