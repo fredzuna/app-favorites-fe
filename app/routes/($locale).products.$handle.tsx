@@ -28,6 +28,10 @@ import {getVariantUrl} from '~/lib/variants';
 import {getProductId} from '~/components/favorites/util';
 import FavoriteButton from '~/components/favorites/FavoriteButton';
 
+interface FavoriteApi {
+  get: (url: string) => Promise<any>;
+}
+
 export const meta: MetaFunction<typeof loader> = ({data}) => {
   return [{title: `Hydrogen | ${data?.product.title ?? ''}`}];
 };
@@ -77,7 +81,7 @@ export async function loader({params, request, context}: LoaderFunctionArgs) {
   });
 
   // Call endpoint to check if the product is favorited
-  const favorite = await favoriteApi.get(
+  const favorite = await (favoriteApi as FavoriteApi).get(
     `api/favorite/${getProductId(product.id)}`,
   );
 
