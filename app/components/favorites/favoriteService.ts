@@ -10,7 +10,7 @@ export const addFavorite = async (product: ProductFragment) => {
     productId: id,
     name: product.title,
     description: product.description,
-    price: parseInt(product.selectedVariant?.price.amount, 10),
+    price: parseInt(product.selectedVariant?.price.amount ?? '0', 10),
     imageUrl: product.selectedVariant?.image?.url,
     jsonData: JSON.stringify(product),
   };
@@ -51,4 +51,3 @@ export const removeFavorite = async (productId: string) => {
     // Handle error, e.g., show an error message
   }
 };
-
