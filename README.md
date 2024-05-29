@@ -1,51 +1,16 @@
-# run the project locally
-to run the project execute the next comands
-- npm install 
-- npm run dev
-- open the url http://localhost:3000 in the browser
-
-# Hydrogen template: Skeleton
-
-Hydrogen is Shopify’s stack for headless commerce. Hydrogen is designed to dovetail with [Remix](https://remix.run/), Shopify’s full stack web framework. This template contains a **minimal setup** of components, queries and tooling to get started with Hydrogen.
-
-[Check out Hydrogen docs](https://shopify.dev/custom-storefronts/hydrogen)
-[Get familiar with Remix](https://remix.run/docs/en/v1)
-
-## What's included
-
-- Remix
-- Hydrogen
-- Oxygen
-- Vite
-- Shopify CLI
-- ESLint
-- Prettier
-- GraphQL generator
-- TypeScript and JavaScript flavors
-- Minimal setup of components and routes
-
-## Getting started
-
-**Requirements:**
-
-- Node.js version 18.0.0 or higher
-
-```bash
-npm create @shopify/hydrogen@latest
-```
-
-## Building for production
-
-```bash
-npm run build
-```
-
-## Local development
-
-```bash
-npm run dev
-```
-
-## Setup for using Customer Account API (`/account` section)
-
-Follow step 1 and 2 of <https://shopify.dev/docs/custom-storefronts/building-with-the-customer-account-api/hydrogen#step-1-set-up-a-public-domain-for-local-development>
+# Creating Shopify, hydrogen, typescript
+- I have created the project using shopify, hydrogen, typescript
+- I have created the <FavoriteButton /> component where I validate if the product is in the favorites list
+- by pressing the button I call an endpoint to save or delete the product in the database
+- using environment variables to access the api url
+  FAVORITE_API_DOMAIN="http://localhost:5000"
+- Using service (favoriteService.ts) to handle post, get, delete requests   
+- I have created a new route to display the list of favorites
+  http://localhost:3000/favorites
+- I have created a new context to access the favorites api from SSR as mentioned in the hydrogen documentation
+  (Fetch third-party API data with Hydrogen)
+	
+# steps to run the project locally
+	npm install
+	npm run dev
+	open the url http://localhost:3000 in the browser	

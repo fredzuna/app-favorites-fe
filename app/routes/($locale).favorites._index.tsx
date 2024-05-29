@@ -2,10 +2,19 @@ import {useLoaderData} from '@remix-run/react';
 import {defer, type LoaderFunctionArgs} from '@shopify/remix-oxygen';
 import FavoriteItem from '~/components/favorites/FavoriteItem';
 
+interface FavoriteApi {
+  get: (url: string) => Promise<any>;
+}
+
 // Creating new page to display favorite list
 export async function loader({context, request}: LoaderFunctionArgs) {
   const {favoriteApi} = context; // We are connecting to the favorite API to check if the product is favorited.
-  const favorites = await favoriteApi.get('api/favorite');
+
+  if (!favoriteApi) {
+    return;
+  }
+
+  const favorites = await (favoriteApi as FavoriteApi).get('api/favorite');
   return defer({favorites});
 }
 
